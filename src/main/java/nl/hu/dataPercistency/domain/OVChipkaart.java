@@ -8,6 +8,7 @@ public class OVChipkaart {
     private int klasse;
     private double saldo;
     private int reizigerId;
+    private Product product;
 
     //
     // getters and setters
@@ -48,6 +49,11 @@ public class OVChipkaart {
     public void setReiziger(int reiziger) {
         this.reizigerId = reiziger;
     }
+
+    public Product getProduct()   {return product;}
+    public void setProduct(Product product) {this.product = product;}
+
+
 
     @Override
     public String toString()    {

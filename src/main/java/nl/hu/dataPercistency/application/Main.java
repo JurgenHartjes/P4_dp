@@ -3,10 +3,12 @@ package nl.hu.dataPercistency.application;
 import nl.hu.dataPercistency.DAO_AND_Psql.Adres.AdresDAO;
 import nl.hu.dataPercistency.DAO_AND_Psql.Adres.AdresDAOPsql;
 import nl.hu.dataPercistency.DAO_AND_Psql.OVChipkaart.OVChipkaartDAOPsql;
+import nl.hu.dataPercistency.DAO_AND_Psql.Product.ProductDAOPsql;
 import nl.hu.dataPercistency.DAO_AND_Psql.Reiziger.ReizigerDAO;
 import nl.hu.dataPercistency.DAO_AND_Psql.Reiziger.ReizigerDAOPsql;
 import nl.hu.dataPercistency.domain.Adres;
 import nl.hu.dataPercistency.domain.OVChipkaart;
+import nl.hu.dataPercistency.domain.Product;
 import nl.hu.dataPercistency.domain.Reiziger;
 
 import java.sql.Connection;
@@ -23,15 +25,21 @@ public class Main {
         main.testReizigerDAO();
         main.testAdresDAO();
         main.testOVChipkaartDAO();
+        main.testProductDAO();
     }
 
     private void deletePreviousTestSubjects() {
         ReizigerDAOPsql reizigerDAO = new ReizigerDAOPsql(getConnection());
         OVChipkaartDAOPsql ovChipkaartDAO = new OVChipkaartDAOPsql(getConnection());
         AdresDAOPsql adresDAO = new AdresDAOPsql(getConnection());
+        ProductDAOPsql productDAO = new ProductDAOPsql(getConnection());
+
+
         adresDAO.delete(1);
         ovChipkaartDAO.delete(1);
+        productDAO.delete(1234);
         reizigerDAO.delete(123);
+
 
         System.out.println("Deleted all previous testSubjects");
 
@@ -97,6 +105,61 @@ public class Main {
         // Delete the Reiziger
         reizigerDAO.delete(1);
         System.out.println("Reiziger deleted.");
+    }
+
+    public void testProductDAO() {
+        ProductDAOPsql productDAO = new ProductDAOPsql(getConnection());
+        OVChipkaartDAOPsql ovChipkaartDAO = new OVChipkaartDAOPsql(getConnection());
+        ReizigerDAOPsql reizigerDAO = new ReizigerDAOPsql(getConnection());
+
+        // Create and save a new Reiziger
+        Reiziger reiziger = new Reiziger(123, "J", null, "Hartjes", java.sql.Date.valueOf("2006-06-22"));
+        reizigerDAO.save(reiziger);
+
+        // Create and save a new Product
+        Product product = new Product();
+        product.setProductNr(1234);
+        product.setNaam("Reisproduct");
+        product.setBeschrijving("Onbeperkt reizen");
+        product.setPrijs(50.00);
+        productDAO.save(product);
+
+        // Create and save a new OVChipkaart and link it to the product
+        OVChipkaart ovChipkaart = new OVChipkaart();
+        ovChipkaart.setKaartNummer(1);
+        ovChipkaart.setGeldigTot(java.sql.Date.valueOf("2025-01-01"));
+        ovChipkaart.setKlasse(1);
+        ovChipkaart.setSaldo(100.00);
+        ovChipkaart.setReiziger(reiziger.getReizigerId());
+        if (ovChipkaart.getProduct() != null) {
+            ovChipkaart.getProduct().setProductNr(product.getProductNr());  // Koppel OVChipkaart aan Product
+        }
+
+        ovChipkaartDAO.save(ovChipkaart);
+
+        // Test data retrieval for OVChipkaart and Product
+        OVChipkaart foundOVChipkaart = ovChipkaartDAO.findById(1);
+        System.out.println("OVChipkaart gevonden: " + foundOVChipkaart);
+        int productnummer;
+        if (foundOVChipkaart.getProduct() != null)  {
+            productnummer = foundOVChipkaart.getProduct().getProductNr();
+            System.out.println("Gekoppeld product nummer: " + productnummer);
+            Product foundProduct = productDAO.findById(foundOVChipkaart.getProduct().getProductNr());
+            System.out.println("Product gevonden: " + foundProduct.getNaam());
+        }
+
+
+
+        // Update and test update functionality
+        foundOVChipkaart.setSaldo(150.00);
+        ovChipkaartDAO.update(foundOVChipkaart);
+        System.out.println("OVChipkaart updated.");
+
+        // Delete and test delete functionality
+        ovChipkaartDAO.delete(foundOVChipkaart.getKaartNummer());
+        productDAO.delete(product.getProductNr());
+        reizigerDAO.delete(reiziger.getReizigerId());
+        System.out.println("OVChipkaart, product en reiziger deleted.");
     }
 
     // Test method for AdresDAO

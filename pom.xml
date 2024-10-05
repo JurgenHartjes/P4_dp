@@ -12,5 +12,76 @@
       <artifactId>postgresql</artifactId>
       <version>42.5.0</version>
     </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>5.6.14.Final</version> <!-- Check for the latest version -->
+    </dependency>
+
+    <!-- Hibernate Validator (Optional, if you need validation) -->
+    <dependency>
+      <groupId>org.hibernate.validator</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>6.2.0.Final</version> <!-- Check for the latest version -->
+    </dependency>
+
+    <!-- PostgreSQL JDBC Driver -->
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>42.5.0</version> <!-- Check for the latest version -->
+    </dependency>
+
+    <!-- Other required dependencies (e.g., for logging) -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.32</version> <!-- Check for the latest version -->
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>1.7.32</version> <!-- Check for the latest version -->
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>5.6.10.Final</version> <!-- or the latest version -->
+    </dependency>
+
+    <!-- Hibernate Validator (for bean validation, optional) -->
+    <dependency>
+      <groupId>org.hibernate.validator</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>6.2.0.Final</version> <!-- or the latest version -->
+    </dependency>
+
+    <!-- JPA API Dependency -->
+    <dependency>
+      <groupId>javax.persistence</groupId>
+      <artifactId>javax.persistence-api</artifactId>
+      <version>2.2</version> <!-- or the version compatible with your Hibernate version -->
+    </dependency>
+
+    <!-- MySQL Connector (or other database connector) -->
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>8.0.29</version> <!-- or the latest version -->
+    </dependency>
+
+    <!-- Additional dependencies -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.32</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>1.7.32</version>
+    </dependency>
   </dependencies>
 </project>

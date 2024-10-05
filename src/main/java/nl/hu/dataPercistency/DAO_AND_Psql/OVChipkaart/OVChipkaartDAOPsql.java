@@ -32,7 +32,7 @@ public class OVChipkaartDAOPsql implements OVChipkaartDAO {
             pstmt.setDate(2, new java.sql.Date(ovChipkaart.getGeldigTot().getTime()));
             pstmt.setInt(3, ovChipkaart.getKlasse());
             pstmt.setDouble(4, ovChipkaart.getSaldo());
-            pstmt.setInt(5, ovChipkaart.getReiziger());
+            pstmt.setInt(5, ovChipkaart.getReiziger().getReizigerId());
 
             if (ovChipkaart.getProduct() != null) {
                 pstmt.setInt(6, ovChipkaart.getProduct().getProductNr());  // Sla de product foreign key op
@@ -49,6 +49,8 @@ public class OVChipkaartDAOPsql implements OVChipkaartDAO {
 
     @Override
     public OVChipkaart findById(int kaartNummer) {
+        ReizigerDAOPsql reizigerDAO = new ReizigerDAOPsql(conn);
+
         OVChipkaart ovChipkaart = null;
         String sql = "SELECT * FROM ov_chipkaart WHERE kaart_nummer = ?";
 
@@ -62,8 +64,7 @@ public class OVChipkaartDAOPsql implements OVChipkaartDAO {
                 ovChipkaart.setGeldigTot(rs.getDate("geldig_tot"));
                 ovChipkaart.setKlasse(rs.getInt("klasse"));
                 ovChipkaart.setSaldo(rs.getDouble("saldo"));
-                ovChipkaart.setReiziger(rs.getInt("reiziger_id"));
-
+                ovChipkaart.setReiziger(reizigerDAO.findById(rs.getInt("reiziger_id")));
                 // Haal het geassocieerde product op
                 int productNr = rs.getInt("product_nr_fk");
                 if (productNr != 0) {
@@ -113,7 +114,7 @@ public class OVChipkaartDAOPsql implements OVChipkaartDAO {
             pstmt.setDate(1, new java.sql.Date(ovChipkaart.getGeldigTot().getTime()));
             pstmt.setInt(2, ovChipkaart.getKlasse());
             pstmt.setDouble(3, ovChipkaart.getSaldo());
-            pstmt.setInt(4, ovChipkaart.getReiziger());
+            pstmt.setInt(4, ovChipkaart.getReiziger().getReizigerId());
 
             if (ovChipkaart.getProduct() != null) {
                 pstmt.setInt(5, ovChipkaart.getProduct().getProductNr());  // Update het product_nr_fk

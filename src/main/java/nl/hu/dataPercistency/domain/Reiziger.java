@@ -1,17 +1,24 @@
 package nl.hu.dataPercistency.domain;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Entity
 public class Reiziger {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int reizigerId;
+
     private String voorletters;
     private String tussenvoegsel;
     private String achternaam;
     private Date geboortedatum;
+
+    @OneToMany(mappedBy = "reiziger", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OVChipkaart> ovChipkaarten = new ArrayList<>();
 
     public Reiziger(int reizigerId, String voorl, String tussenv, String achtern, Date gbdatum) {
@@ -20,6 +27,9 @@ public class Reiziger {
         this.tussenvoegsel = tussenv;
         this.achternaam = achtern;
         this.geboortedatum = gbdatum;
+    }
+
+    public Reiziger() {
     }
 
 
@@ -75,7 +85,7 @@ public class Reiziger {
     }
     public void addOvChipkaart(OVChipkaart ovChipkaart) {
         ovChipkaarten.add(ovChipkaart);
-        ovChipkaart.setReiziger(reizigerId); // Set the back-reference
+        ovChipkaart.setReiziger(this); // Set the back-reference
     }
 
     @Override

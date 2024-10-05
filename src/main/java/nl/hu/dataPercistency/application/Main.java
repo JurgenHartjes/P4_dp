@@ -130,7 +130,7 @@ public class Main {
         ovChipkaart.setGeldigTot(java.sql.Date.valueOf("2025-01-01"));
         ovChipkaart.setKlasse(1);
         ovChipkaart.setSaldo(100.00);
-        ovChipkaart.setReiziger(reiziger.getReizigerId());
+        ovChipkaart.setReiziger(reiziger);
         if (ovChipkaart.getProduct() != null) {
             ovChipkaart.getProduct().setProductNr(product.getProductNr());  // Koppel OVChipkaart aan Product
         }
@@ -211,7 +211,7 @@ public class Main {
         ovChipkaart.setGeldigTot(java.sql.Date.valueOf("2025-01-01"));
         ovChipkaart.setKlasse(1);
         ovChipkaart.setSaldo(100.00);
-        ovChipkaart.setReiziger(reiziger.getReizigerId());
+        ovChipkaart.setReiziger(reiziger);
 
         // Persist the OVChipkaart
         ovChipkaartDAO.save(ovChipkaart);
